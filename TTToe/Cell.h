@@ -15,16 +15,12 @@ private:
    Point firstSubCell; 
    SubCell** subCells;
    int oldNum;
-
    bool stIncr;
    bool isStatic;
    bool needsToBeRedrawn;
-
    Point upperLeft;
-
    Settings* settings;
    DrawSets* drawSet;
-
    bool initialized;
 
 public:

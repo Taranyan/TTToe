@@ -80,12 +80,8 @@ void RateField::initialize(size_t size){
 	}
 
 	movesMade = 0;
-
 	this->size = size;
-
 	clearCombinations();
-
-	//               <= !!!
 
 	for(int i = 0; i <= GlobalSettings::aiSettings.winCombLength; i++){
 		pcCombinationsByLength.push_back(new unordered_map<Combination*, Combination*>());
@@ -211,9 +207,7 @@ void RateField::deleteCombinationByPointer(Combination* combPointer, vector<Comb
 void RateField::restoreCombinations(vector<Combination*>* removedCombinations){
 	int tsz = removedCombinations->size();
 	Combination* comb;
-
 	int combCellsSize;
-
 	RateCell* cell;
 
 	for(int i = 0; i < tsz; i++){
@@ -248,7 +242,6 @@ void RateField::restoreCombinations(vector<Combination*>* removedCombinations){
 void RateField::clearIntersectingLines(Point point, vector<Combination*>* removedCombinations, const vector<int> * dirs){
 
 	RateCell* cell;
-
 	list<Combination*>* combList;
 	list<Combination*>::iterator combListIterator;
 	list<Combination*>::iterator listEnd;
@@ -362,7 +355,6 @@ void RateField::recalculateIntersectingLines(Point point, vector<Combination*>* 
 			lineIterator.initialize(size, directions[i], point);
 
 			mode = cellModes[j];
-
 			index = 0;
 
 			while(lineIterator.getNext()){
@@ -391,7 +383,6 @@ void RateField::recalculateIntersectingLines(Point point, vector<Combination*>* 
 
 							comb = nullptr;
 						}
-
 					}
 				}
 				else if(cell->mode == BaseCell::MODE_EMPTY){ // If the cell is empty
@@ -420,8 +411,6 @@ void RateField::recalculateIntersectingLines(Point point, vector<Combination*>* 
 
 							comb = nullptr;
 						}
-
-
 					}
 				}
 				else{ //if the cell has opposite mode
@@ -439,7 +428,6 @@ void RateField::recalculateIntersectingLines(Point point, vector<Combination*>* 
 				comb = nullptr;
 			}
 		}
-
 	}
 }
 
@@ -463,11 +451,10 @@ void RateField::recalculateField(vector<Combination*>* combsToRestore){
 	while(iter.getNext()){
 		recalculateIntersectingLines(iter.currentPoint, combsToRestore, &dirs2);
 	}
-
 }
 
 //Checks if the current combinations is conatained is another combination, and if 
-//it is not, adds the combaintion and removes all containing combinations;
+//it is not, adds the combination and removes all containing combinations;
 //Left-to-right required.(!)
 //Returns whether the combination was added;
 
@@ -549,35 +536,8 @@ bool RateField::addCombination(Combination* comb){
 			}
 			else{
 				++combListIteratorAC;
-			}
-			
+			}		
 		}
-
-		//for(i = firstCellCombs->size() - 1; i >= 0; i-- ){
-		//	tempComb = firstCellCombs->at(i);
-		//	if(tempComb->contains(comb)){
-		//		for(j = 0; j < tempComb->combCells.size(); j++){
-		//			tempCell = (RateCell*)tempComb->combCells[j];
-
-		//			if(isCombModePC){
-		//				tempCombinations = &tempCell->pcCombinationKeys[comb->direction];
-		//			}
-		//			else{
-		//				tempCombinations = &tempCell->playerCombinationKeys[comb->direction];
-		//			}
-
-		//			for(k = tempCombinations->size() - 1; k >= 0; k++){
-		//				if( (tempCombinations->at(k)) == tempComb ){
-		//					tempCombinations->erase(tempCombinations->begin()+k);
-		//					break;
-		//				}
-		//			}
-
-		//		}
-
-		//		deleteCombinationByPointer(tempComb);
-		//	}
-		//}
 		
 		for(size_t i = 0; i < combCells->size(); i++){
 			if(isCombModePC){
@@ -589,12 +549,11 @@ bool RateField::addCombination(Combination* comb){
 
 			tempCombinations->push_back(comb);
 		}
-
 	}
 
-	combinations.insert(unordered_map<Combination*,bool>::value_type(comb,true));
+	combinations.insert(unordered_map<Combination*,bool>::value_type(comb, true));
 	unordered_map<Combination*,Combination*>* map = isCombModePC ? pcCombinationsByLength[comb->combCells.size()] : playerCombinationsByLength[comb->combCells.size()];
-	map->insert(unordered_map<Combination*,Combination*>::value_type(comb,comb));
+	map->insert(unordered_map<Combination*, Combination*>::value_type(comb, comb));
 
 	return true;
 }
@@ -689,17 +648,14 @@ Point RateField::getBestCellByAnalysingTheTree(){
 	Point res;
 	PositionRate posRate;
 	posRate.valid = false;
-
 	bool first = true;
 	PositionRate temp;
 	Point tempPoint;
 
 	vector<Combination*> combsToRestore;
-
 	bool winningCellsExist = pcCombinationsByLength[1]->size() != 0 || playerCombinationsByLength[1]->size() != 0;
 
 	RateCell* tempCell;
-
 	int topCellsSize = topCells.size();
 
 	for(int i = 0; i < topCellsSize; i++){
@@ -710,7 +666,6 @@ Point RateField::getBestCellByAnalysingTheTree(){
 		tempPoint = topCells[i].point;
 		tempCell = &field[tempPoint.y][tempPoint.x];
 		tempCell->getRate(); // to init isWinning property;
-
 
 		this->percent = 100*(i+1)/topCellsSize;
 
@@ -745,7 +700,6 @@ PositionRate RateField::analyse(int depth, int mode, PositionRate minmax){
 	bool modePC = mode == BaseCell::MODE_PC;
 
 	size_t selNum = GlobalSettings::aiSettings.level.selNum;
-
 	PositionRate rate;
 	
 	if(stopThinking){
@@ -855,7 +809,6 @@ PositionRate RateField::analyse(int depth, int mode, PositionRate minmax){
 	}
 
 	rate.valid = false;
-
 	bool first = true;
 	PositionRate temp;
 	Point tempPoint;
@@ -866,7 +819,6 @@ PositionRate RateField::analyse(int depth, int mode, PositionRate minmax){
 	RateCell* tempCell;
 
 	if(modePC){
-
 		for(size_t i = 0; i < topCells.size(); i++){
 			if(stopThinking){
 				rate.valid = false;
@@ -954,7 +906,6 @@ PositionRate RateField::analyse(int depth, int mode, PositionRate minmax){
 		}
 	}
 
-
 	return rate;
 }
 
@@ -966,12 +917,9 @@ vector<Combination> RateField::getExtendedCompletedCombinations(){
 	bool directions[4];
 
 	directions[0] = directions[1] = directions[2] = directions[3] = false;
-
 	int dirs[4] = {RateCell::DIRECTION_HORIZONTAL, RateCell::DIRECTION_VERTICAL, RateCell::DIRECTION_MAIN_DIAG, RateCell::DIRECTION_SEC_DIAG};
 
 	vector<Combination> combs;
-
-		
 
 	unordered_map<Combination*, Combination*>::iterator iterator = pcCombinationsByLength[0]->size() > 0 ? pcCombinationsByLength[0]->begin() : playerCombinationsByLength[0]->begin();
 	unordered_map<Combination*, Combination*>::iterator itEnd = pcCombinationsByLength[0]->size() > 0 ? pcCombinationsByLength[0]->end() : playerCombinationsByLength[0]->end();
@@ -1021,7 +969,6 @@ vector<Combination> RateField::getExtendedCompletedCombinations(){
 
 		++iterator;
 	}
-
 
 	return combs;
 }

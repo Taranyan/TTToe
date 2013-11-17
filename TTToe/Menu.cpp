@@ -4,12 +4,11 @@
 
 Menu::Menu(){
 	font = new CFont();
-	font->CreateFont(0,10,0,0,FW_NORMAL, FALSE, FALSE, 0, ANSI_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,  DEFAULT_PITCH | FF_SWISS, L"Courier");
+	font->CreateFont(0, 10, 0, 0, FW_NORMAL, FALSE, FALSE, 0, ANSI_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,  DEFAULT_PITCH | FF_SWISS, L"Courier");
 
 	oldUpperLeft.setIsValid(false);
 	displayedAfterMove = true;
 	xShift = -1;
-
 	menuIndex = 0;
 
 	this->openedUpperLeft.setIsValid(false);
@@ -52,7 +51,7 @@ Menu::Menu(int openBCEvID, int navBLCEvID, int navBRCEvID, Point openedUpperLeft
 	this->velocity = 0;
 
 	font = new CFont();
-	font->CreateFont(0,10,0,0,FW_NORMAL, FALSE, FALSE, 0, ANSI_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,  DEFAULT_PITCH | FF_SWISS, L"Courier");
+	font->CreateFont(0, 10, 0, 0, FW_NORMAL, FALSE, FALSE, 0, ANSI_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,  DEFAULT_PITCH | FF_SWISS, L"Courier");
 
 	oldUpperLeft.setIsValid(false);
 	displayedAfterMove = true;

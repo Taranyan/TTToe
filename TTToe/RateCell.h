@@ -17,7 +17,7 @@ public:
 	int direction;
 	int relativeStart;
 	int relativeEnd;
-	vector<BaseCell*> combCells; // Note: these cells are added in concrete direction.
+	vector<BaseCell*> combCells; // Note: these cells are added in certain direction.
 
 	Combination(){
 		combCells.reserve(5);
@@ -75,10 +75,8 @@ public:
 
 	bool isWinning;
 	int directions[4];
-
 	vector<list<Combination*>*> playerCombinationKeys;
 	vector<list<Combination*>*> pcCombinationKeys;
-
 	int mode;
 	Point point;
 

@@ -9,7 +9,7 @@ Button::Button(){
 	updated = false;
 
 	font = new CFont();
-	font->CreateFont(0,10,0,0,FW_NORMAL, FALSE, FALSE, 0, ANSI_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,  DEFAULT_PITCH | FF_SWISS, L"Courier");
+	font->CreateFont(0, 10, 0, 0, FW_NORMAL, FALSE, FALSE, 0, ANSI_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,  DEFAULT_PITCH | FF_SWISS, L"Courier");
 }
 
 Button::Button(int bCEvID, Point upperLeft, int height, int width, string lbl, ButtonStyle* st){
@@ -24,7 +24,7 @@ Button::Button(int bCEvID, Point upperLeft, int height, int width, string lbl, B
 	updated = false;
 
 	font = new CFont();
-	font->CreateFont(0,10,0,0,FW_NORMAL, FALSE, FALSE, 0, ANSI_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,  DEFAULT_PITCH | FF_SWISS, L"Courier");
+	font->CreateFont(0, 10, 0, 0, FW_NORMAL, FALSE, FALSE, 0, ANSI_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,  DEFAULT_PITCH | FF_SWISS, L"Courier");
 
 	animStatus = 0;
 }

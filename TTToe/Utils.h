@@ -5,6 +5,7 @@
 
 template<class A, class B>
 class myPair{
+
 public:
 	A key;
 	B value;
@@ -18,6 +19,7 @@ public:
 
 template<class C, class D>
 class UnorderedMapConverter{
+
 public:
  static vector<myPair<C,D>> getPairVectorFromBoostUnorderedMap(unordered_map<C,D>* map){
 	vector<myPair<C,D>> vec;

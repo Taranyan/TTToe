@@ -102,42 +102,31 @@ class Settings : public Object{
 public:
 
 	int fieldSize;       // Size of the field(fieldSize*fieldSize cells)  
-
     int combLength;      // Lenght of sequence needed to win.
-
 	int fieldULX;        // X coordinate of upper left corner of the field
 	int fieldULY;        // Y coordinate of upper left corner of the field
-
 	int distCellHalf;    // The Half of Distance between cells
 	int numOfSubCells;   // Number of subcells in each cell
 	int distSub;         // Distance between subcells
 	int posnum;          // Number of positions
-	int* subCellSizes;     // Sizes
+	int* subCellSizes;   // Sizes
 	bool grow;           // Is the "grow" mode activated?
-	
 	bool convex;         // Is convex?
-	
 	bool showtrack;      // Is the track of mouse shown
-
 	bool frameExists;    // Does the field have a frame
 	int frameMargin;     // Margin of frame from the field
 	int frameWidth;      // The width of the frame
 	int frameColPos;     // Position of corresponding color in the drawsets(PenSet)
-
 	bool separatingLinesExist; // Indicates whether lines between cells exist
 	int separatingLineWidth;
 	int separatingLineIndex;
-
     size_t clrSchemeInd;    // Index in the DS	
-
 	int cellMonochrome;
-
 	size_t fieldBackgroundIndex;
 	size_t backgroundIndex; // Index of the backgound penset/brushset
 	size_t xIndex;          // Index of the x penset/brushset
 	size_t oIndex;          // Index of the o penset/brushset
 	size_t emptyIndex;      // Index of the empty penset/brushset
-
 	size_t fieldStyleInd;
 
 	int getFieldBackgroundIndex(){
@@ -167,12 +156,10 @@ public:
 
 	const Settings& operator = (const Settings& sett){
 		init(sett);
-
 		return *this;
 	}
 
 	void init(const Settings& sett){
-		
 		this->fieldSize = sett.fieldSize;
 		this->combLength = sett.combLength;
 		this->fieldULX = sett.fieldULX;
@@ -186,7 +173,6 @@ public:
 		}
 
 		this->posnum = sett.posnum;
-
 		this->subCellSizes = new int[posnum];
 
 		for(int i = 0; i < posnum; i++){
@@ -198,24 +184,19 @@ public:
 		this->frameExists = sett.frameExists;
 		this->frameMargin = sett.frameMargin;
 		this->frameWidth = sett.frameWidth;
-		this->frameColPos = sett.frameColPos;
-		
+		this->frameColPos = sett.frameColPos;	
 		this->separatingLinesExist = sett.separatingLinesExist;
 		this->separatingLineWidth = sett.separatingLineWidth;
 		this->separatingLineIndex = sett.separatingLineIndex;
-
 		this->clrSchemeInd = sett.clrSchemeInd;
 		this->cellMonochrome = sett.cellMonochrome;
-
 		this->fieldBackgroundIndex = sett.fieldBackgroundIndex;
 		this->backgroundIndex = sett.backgroundIndex;
 		this->xIndex = sett.xIndex;
 		this->oIndex = sett.oIndex;
 		this->emptyIndex = sett.emptyIndex;
-
 		this->fieldStyleInd = sett.fieldStyleInd;
 	}
-
 };
 
 class Clr : public Object
@@ -235,11 +216,11 @@ public:
 
 	Clr(COLORREF cf)
 	{
-		set( GetRValue(cf),GetGValue(cf),GetBValue(cf));
+		set(GetRValue(cf), GetGValue(cf), GetBValue(cf));
 	}
 
 	COLORREF getRGB(){
-		return RGB(r,g,b);
+		return RGB(r, g, b);
 	}
 
 	void set(int R, int G, int B)
@@ -526,14 +507,13 @@ public:
 	}
 
 	void setPen(CPen* first, CPen* second, boolean del){
-
 		LOGPEN lp;
 		second->GetLogPen(&lp);
 
 		if(del){
 			first->DeleteObject();
 		}
-		first->CreatePen(lp.lopnStyle,lp.lopnWidth.x,lp.lopnColor);
+		first->CreatePen(lp.lopnStyle, lp.lopnWidth.x, lp.lopnColor);
 	}
 
 	COLORREF getRGB(){
@@ -656,7 +636,7 @@ public:
 
     CBrush* getBrush(int ind)
 	{
-		if(ind>= 0 && ind<getSize()){
+		if(ind >= 0 && ind < getSize()){
 			return brushes[ind].getBrush();
 		}
 		return nullptr;
@@ -736,7 +716,7 @@ public:
 
 	Clr getRGB(int i)
 	{
-		if( i>= 0 && i < getSize())
+		if(i >= 0 && i < getSize())
 		{
 		   LOGBRUSH lb;
 		   brushes[i].getBrush()->GetLogBrush(&lb);
@@ -801,11 +781,11 @@ public:
 					b = stClr.b - (stClr.b - endClr.b)*i/(size-1);
 				}
 
-				this->addBrush(BrushObject(RGB(r,g,b)));
+				this->addBrush(BrushObject(RGB(r, g, b)));
 			}
 		}
 		else{
-			this->addBrush(BrushObject(RGB(stClr.r,stClr.g,stClr.b)));
+			this->addBrush(BrushObject(RGB(stClr.r, stClr.g, stClr.b)));
 		}
 	}
 
@@ -830,7 +810,7 @@ public:
 	{
 		int* widths = new int[1];
 		widths[0] = width;
-		this->PenSet::PenSet(size,colors,widths,true);
+		this->PenSet::PenSet(size, colors, widths, true);
 	}
 	
 	PenSet(int size, Clr* colors, int* widths, bool sameWidth = false)
@@ -908,7 +888,7 @@ public:
 		LOGPEN lp;
 		second->GetLogPen(&lp);
 		first->DeleteObject();
-		first->CreatePen(lp.lopnStyle,lp.lopnWidth.x,lp.lopnColor);
+		first->CreatePen(lp.lopnStyle, lp.lopnWidth.x, lp.lopnColor);
 	}
 
 	void setPen(int ind, CPen& pen)
@@ -972,17 +952,13 @@ public:
 			else{
 				w = widths[i];
 			}
-			//pens[i].DeleteObject();
-			pens.push_back( PenObject( 0, w, RGB(clrs[i].r,clrs[i].g,clrs[i].b) ));
+			pens.push_back( PenObject( 0, w, RGB(clrs[i].r, clrs[i].g, clrs[i].b) ));
 		}
 	}
 
 	void set(int ind, Clr c, int width = 1){
 		if(ind >= 0 && ind < getSize()){
-			//pens[ind].DeleteObject();
-			pens[ind] = PenObject(0,width, RGB(c.r,c.g,c.b));
-			/*pens[ind] = CPen(0,width, RGB(c.r,c.g,c.b));
-			setPen(&pens[ind], &CPen(0,width, RGB(c.r,c.g,c.b)););*/
+			pens[ind] = PenObject(0, width, RGB(c.r, c.g, c.b));
 		}
 	}
 
@@ -1005,8 +981,7 @@ public:
 		{
 			LOGBRUSH lb;
 			BS.getBrush(i)->GetLogBrush(&lb);
-			//pens[i].DeleteObject();
-			pens.push_back(PenObject(0,width,lb.lbColor));	 
+			pens.push_back(PenObject(0, width, lb.lbColor));	 
 		}
 	}
 
@@ -1014,14 +989,11 @@ public:
 	{
 		for(int i = 0; i < this->getSize(); i++)
 		{
-			/*Clr clr= BS->getRGB(i);
-			clr.shift(shift);*/
 			LOGPEN lp;
 			pens[i].getPen()->GetLogPen(&lp);
 			Clr clr(lp.lopnColor);
 			clr.shift(shift);
-			//pens[i].DeleteObject();
-			set(i,clr,lp.lopnWidth.x);
+			set(i, clr, lp.lopnWidth.x);
 		}
 	}
 
@@ -1055,17 +1027,17 @@ public:
 				else{
 					b = stClr.b - (stClr.b - endClr.b)*i/(size-1);
 				}
-				this->addPen(PenObject(0,1,RGB(r,g,b)));
+				this->addPen(PenObject(0, 1, RGB(r, g, b)));
 			}
 		}
 		else{
-			this->addPen(PenObject(0,1,RGB(stClr.r,stClr.g,stClr.b)));
+			this->addPen(PenObject(0, 1, RGB(stClr.r, stClr.g, stClr.b)));
 		}
 	}
 
 	void fill2(Clr stClr,Clr middleClr1, Clr middleClr2, Clr endClr, int middleSize, int size){
 		pens.clear();
-		fill(stClr, middleClr1, middleSize,false);
+		fill(stClr, middleClr1, middleSize, false);
 		fill(middleClr2, endClr, size-middleSize, false);
 	}
 };

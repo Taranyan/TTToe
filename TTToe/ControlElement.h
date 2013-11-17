@@ -20,7 +20,6 @@ protected:
 	//bool lButtonClicked;
 	//bool rButtonClicked;
 
-
 public:
 	static const int POINT_INSIDE = 0x1;
 	static const int L_BUTTON_CLICKED = 0x10;

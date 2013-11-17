@@ -75,7 +75,6 @@ public:
 		this->point = point;
 		this->rate = rate;
 	}
-
 };
 
 
@@ -85,13 +84,10 @@ private:
 	size_t size;
 	int percent;
 	bool stopThinking;
-
 	FieldLineIterator lineIterator;
-
 	unordered_map<Combination*, bool> combinations;
 	vector<unordered_map<Combination*, Combination*>*> pcCombinationsByLength;
 	vector<unordered_map<Combination*, Combination*>*> playerCombinationsByLength;
-
 	list<Combination*>::iterator combListIteratorAC;
 	list<Combination*>::iterator combListIterator2AC;
 	list<Combination*>::iterator listEndAC;
@@ -102,7 +98,6 @@ public:
 	static const int ST_PLAYER_WON = 1;
 	static const int ST_AI_WON = 2;
 	static const int ST_NOTHING = -1;
-
 
 	int movesMade;
 	BaseField* fld; 
@@ -131,7 +126,7 @@ public:
 	void recalculateField(vector<Combination*>* combsToRestore = nullptr); // Recalculates the whole field
 
 	//Checks if the current combinations is conatained is another combination, and if 
-	//it is not, adds the combaintion and removes all containing combinations;
+	//it is not, adds the combination and removes all containing combinations;
 	//Left-to-right required.(!)
 	//Returns whether the combination was added;
 
@@ -150,7 +145,6 @@ public:
 		setMode(y, x, BaseCell::MODE_EMPTY, true);
 	}
 */
-
 };
 
 

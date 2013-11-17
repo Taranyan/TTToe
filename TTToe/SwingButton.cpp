@@ -64,7 +64,6 @@ void SwingButton::recalculate(){
 	initializeButtonPositions();
 }
 
-
 void SwingButton::setStyle(SwingButtonStyle* st){
 	this->style = st;
 	this->leftButton.setStyle(st->buttonStyle);
@@ -191,14 +190,12 @@ void SwingButton::display(){
 	}
 
 	this->leftButton.display();
-
 	CPen pen(0,1,leftButton.getCurrentColor().getRGB());
 
-	Graphics::drawLine(nullptr, leftButton.getBottomRight().x-1, leftButton.getUpperLeft().y + 1, leftButton.getBottomRight().x-1, leftButton.getBottomRight().y - 1,
+	Graphics::drawLine(nullptr, leftButton.getBottomRight().x - 1, leftButton.getUpperLeft().y + 1, leftButton.getBottomRight().x-1, leftButton.getBottomRight().y - 1,
 		              &pen, true);
 
 	this->rightButton.display();
-
 	CPen pen2(0,1,rightButton.getCurrentColor().getRGB());
 
 	Graphics::drawLine(nullptr, rightButton.getUpperLeft().x, rightButton.getUpperLeft().y + 1, rightButton.getUpperLeft().x, rightButton.getBottomRight().y - 1,
@@ -323,8 +320,8 @@ void SwingButton::displayUpdated(){
 
 		if(this->leftButton.getIsUpdated()){
 			this->leftButton.displayUpdated();
-			CPen pen(0,1,leftButton.getCurrentColor().getRGB());
-			Graphics::drawLine(nullptr, leftButton.getBottomRight().x-1, leftButton.getUpperLeft().y + 1, leftButton.getBottomRight().x-1, leftButton.getBottomRight().y - 1,
+			CPen pen(0, 1, leftButton.getCurrentColor().getRGB());
+			Graphics::drawLine(nullptr, leftButton.getBottomRight().x - 1, leftButton.getUpperLeft().y + 1, leftButton.getBottomRight().x - 1, leftButton.getBottomRight().y - 1,
 						  &pen, true);
 		}
 		if(this->rightButton.getIsUpdated()){

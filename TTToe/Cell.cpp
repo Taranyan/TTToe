@@ -5,7 +5,6 @@ Cell::Cell(){
 	upperLeft.x = -1;
 	upperLeft.y = -1;
 	upperLeft.valid = false;
-	//numOfSubCells = -1;
     isStatic = true;
 	needsToBeRedrawn = false;
 	stIncr = false;
@@ -130,9 +129,9 @@ bool Cell::setUpperLeft(Point pnt, bool initSubCells){
 }
 
 Point Cell::getUpperLeftSubCenter(){
-	Point t = this->upperLeft;
-	t.shift(settings->subCellSizes[settings->posnum -1],settings->subCellSizes[settings->posnum -1]);
-	return t;
+	Point ul = this->upperLeft;
+	ul.shift(settings->subCellSizes[settings->posnum -1],settings->subCellSizes[settings->posnum -1]);
+	return ul;
 }
 
 bool Cell::initializeCenters(){
@@ -144,16 +143,15 @@ bool Cell::initializeCenters(){
 			incr++;
 		}
 
-		Point t = getUpperLeftSubCenter();
-
-		int baseX = t.x;
+		Point upperLeftSubCenter = getUpperLeftSubCenter();
+		int baseX = upperLeftSubCenter.x;
 		for(i = 0; i < settings->numOfSubCells; i++){
 			for(j = 0; j < settings->numOfSubCells; j++){
-				subCells[i][j].setCenter(t);
-				t.x += incr;
+				subCells[i][j].setCenter(upperLeftSubCenter);
+				upperLeftSubCenter.x += incr;
 			}
-			t.y += incr;
-			t.x = baseX;
+			upperLeftSubCenter.y += incr;
+			upperLeftSubCenter.x = baseX;
 		}
 		return true;
 	}
@@ -162,7 +160,6 @@ bool Cell::initializeCenters(){
 
 bool Cell::initializeSubCells(bool initProps, bool initSubs){
 	int i,j;
-	//int size = settings->numOfSubCells;
 	if(initSubs && oldNum != settings->numOfSubCells){
 		if(subCells != nullptr){
 			for(i = 0; i < oldNum; i++){
@@ -171,7 +168,6 @@ bool Cell::initializeSubCells(bool initProps, bool initSubs){
 			delete []subCells;
 		}
 
-		//size = newNum;
 		subCells = new SubCell*[settings->numOfSubCells];
 		for(i = 0; i < settings->numOfSubCells; i++){
 			subCells[i] = new SubCell[settings->numOfSubCells];
@@ -182,7 +178,6 @@ bool Cell::initializeSubCells(bool initProps, bool initSubs){
 		if(settings != nullptr){
 			for(i = 0; i < settings->numOfSubCells; i++){
 				for(j = 0; j < settings->numOfSubCells; j++){
-//						subCells[i][j].setCDC(clientDC);
 					subCells[i][j].setDrawSet(drawSet);
 					subCells[i][j].setSettings(settings);
 				}
@@ -194,11 +189,9 @@ bool Cell::initializeSubCells(bool initProps, bool initSubs){
 	return true;
 }
 
-
 bool Cell::initializeProps(){
 	return initializeSubCells(true, false) && initializeCenters();// && calculateBounds();
 }
-
 
 bool Cell::update(int i, int j)
 {
@@ -212,41 +205,41 @@ bool Cell::update(int i, int j)
 		sub->setStatus(subSt + 1);
 		++subSt;
 	}
-	if(subSt!=1) { // it isn't the first hit of this subcell - update adjacent subcells.
-	    if(i!=0) {
+	if(subSt != 1) { // it isn't the first hit of this subcell - update adjacent subcells.
+	    if(i != 0) {
 		if(j != 0 && subCells[i-1][j-1].getIsPassed()==false){
-	        if(update(i-1,j-1))
+	        if(update(i-1, j-1))
 			    a=true;
 		}
-	    if(j != settings->numOfSubCells-1 && subCells[i-1][j+1].getIsPassed()==false){
-	        if(update(i-1,j+1))
+	    if(j != settings->numOfSubCells-1 && subCells[i-1][j+1].getIsPassed() == false){
+	        if(update(i-1, j+1))
 			    a=true;
 		}
-		if(subCells[i-1][j].getIsPassed()==false){
-	        if(update(i-1,j))
+		if(subCells[i-1][j].getIsPassed() == false){
+	        if(update(i-1, j))
 	            a=true;
 		}
 		}
 		if(i != settings->numOfSubCells - 1) {
-	    if(j != 0 && subCells[i+1][j-1].getIsPassed()==false) {
-		    if(update(i+1,j-1))
+	    if(j != 0 && subCells[i+1][j-1].getIsPassed() == false) {
+		    if(update(i+1, j-1))
 			    a=true;		 
 		}
-	    if(j != settings->numOfSubCells-1 && subCells[i+1][j+1].getIsPassed()==false)	{
-	        if(update(i+1,j+1))
+	    if(j != settings->numOfSubCells-1 && subCells[i+1][j+1].getIsPassed() == false)	{
+	        if(update(i+1, j+1))
 			    a=true;
 		}
-		if(subCells[i+1][j].getIsPassed()==false) {
-	        if(update(i+1,j))
+		if(subCells[i+1][j].getIsPassed() == false) {
+	        if(update(i+1, j))
 	            a=true;
 		}
 		}
-	    if(j != 0 && subCells[i][j-1].getIsPassed()==false) {
-	    if(update(i,j-1))
+	    if(j != 0 && subCells[i][j-1].getIsPassed() == false) {
+	    if(update(i, j-1))
 			a=true;
 		}
-	    if(j != settings->numOfSubCells-1 && subCells[i][j+1].getIsPassed()==false) {
-	    if(update(i,j+1))
+	    if(j != settings->numOfSubCells - 1 && subCells[i][j+1].getIsPassed() == false) {
+	    if(update(i, j+1))
 			a=true;
 		}
 	}
@@ -254,16 +247,15 @@ bool Cell::update(int i, int j)
 }
 
 bool Cell::updateCell() {
-    bool up=false;
+    bool up = false;
 	int i,j;
-	if( stIncr ==false) { // statuses are decreasing
-		for(i=0; i<settings->numOfSubCells; i++){
-			for(j=0; j<settings->numOfSubCells; j++){
+	if( stIncr == false) { // statuses are decreasing
+		for(i = 0; i < settings->numOfSubCells; i++){
+			for(j = 0; j<settings->numOfSubCells; j++){
 
 				int subSt = subCells[i][j].getStatus();
-
-				if(subSt!=0) {
-					up=true;
+				if(subSt != 0) {
+					up = true;
 					subCells[i][j].setIsUpdated(true);
 					/* if(subSt==4)   
 						subCells[i][j].setStatus(2);
@@ -280,8 +272,8 @@ bool Cell::updateCell() {
 		}
 	}
 	else{
-		for(i=0; i<settings->numOfSubCells; i++)
-			for(j=0; j<settings->numOfSubCells; j++)
+		for(i = 0; i < settings->numOfSubCells; i++)
+			for(j = 0; j < settings->numOfSubCells; j++)
 			{
 				subCells[i][j].setIsUpdated(false);
 				subCells[i][j].setIsPassed(false);
@@ -295,10 +287,10 @@ bool Cell::updateCell() {
 
 void Cell::resetCell(){
 	isStatic=true;
-    for(int i = 0; i<settings->numOfSubCells; i++)
-        for(int j=0; j<settings->numOfSubCells; j++){
+    for(int i = 0; i < settings->numOfSubCells; i++)
+        for(int j = 0; j < settings->numOfSubCells; j++){
 		subCells[i][j].resetState();
-		}
+	}
 }
 
 void Cell::resetPassed(){
@@ -356,11 +348,11 @@ bool Cell::isInside(Point point, Point* subCell, bool strict){
 			}
 			return true;
 		}
-		//int div = settings->subCellSizes[settings->posnum -1] + settings->distSub + 1; //!!!!!!!!!!!!!! *2 + if....
-		int div = settings->subCellSizes[settings->posnum -1]*2 + settings->distSub;// + settings->convex ? 1 : 0;
+		
+		int div = settings->subCellSizes[settings->posnum -1]*2 + settings->distSub;// Consider if is convex
 		int x = (point.x - upperLeft.x) / div;
 		int y = (point.y - upperLeft.y) / div;
-		if(subCells[y][x].isInside(point,strict) ){
+		if(subCells[y][x].isInside(point, strict)){
 			if(subCell != nullptr){
 			    subCell->x = x;
 			    subCell->y = y;
@@ -379,7 +371,7 @@ bool Cell::isInside(Point point, Point* subCell, bool strict){
 }
 
 void Cell::display(bool redraw) {
-	bool clear = settings->grow && mode!=1 && mode!=2 && stIncr==false && (!isStatic || redraw); // subCells are getting smaller - so there is need to clear their previous state
+	bool clear = settings->grow && mode != MODE_PLAYER && mode != MODE_PC && stIncr == false && (!isStatic || redraw); // subCells are getting smaller - so there is need to clear their previous state
 
 	if(GlobalSettings::doubleBuffering){
 		Graphics::createMemDc(&CRect(this->upperLeft.x,this->upperLeft.y,this->getBottomRight().x, this->getBottomRight().y)); 
@@ -391,7 +383,7 @@ void Cell::display(bool redraw) {
 	else{
 		for(int i=0; i<settings->numOfSubCells; i++){
 			for(int j=0; j<settings->numOfSubCells; j++){
-				subCells[i][j].display(mode,redraw || needsToBeRedrawn,clear);
+				subCells[i][j].display(mode, redraw || needsToBeRedrawn,clear);
 			}
 		}
 	}

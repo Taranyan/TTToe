@@ -4,6 +4,7 @@
 #include "Primitives.h"
 #include "Graphics.h"
 #include "stdafx.h"
+#include "BaseCell.h"
 
 class SubCell : public Object
 {
@@ -14,7 +15,6 @@ private:
 	bool isUpdated;
 	bool isPassed;
 	Point center;
-
     Settings* settings;
     DrawSets* drawSet;
 
@@ -76,38 +76,7 @@ public:
 	const Settings* getSettings(){
 		return settings;
 	}
-	/*
-	void setCDC( CWnd* wnd )
-	{
-		if(clientDC!=nullptr && deleteDC == true){
-			delete clientDC;
-		}
-		clientDC = new CClientDC(wnd);
-		deleteDC = true;
-	}
 
-	void setCDC(CClientDC* p){
-		if(this->clientDC != nullptr && deleteDC == true){
-			delete this->clientDC;
-		}
-		this->clientDC = p;
-		deleteDC = false;
-	}
-
-	void createOwnCDC(){
-		CWnd* wnd = AfxGetApp()->m_pMainWnd;
-		if(this->clientDC != nullptr && deleteDC == true){
-			delete this->clientDC;
-		}
-		this->clientDC = new CClientDC(wnd);
-		deleteDC = true;
-	}
-	
-	CClientDC* getClientDC(){
-		return clientDC;
-	}
-	
-	*/
 	void setDrawSet(DrawSets* drawSet){
 		this->drawSet = drawSet;
 	}
@@ -117,16 +86,17 @@ public:
 	}
 
 	bool isInside(Point point, bool strict = false){
-		int wdt;
+		int width;
 		if(strict){
-			wdt = settings->subCellSizes[status]; 
+			width = settings->subCellSizes[status]; 
 		}
 		else{
-			wdt = settings->subCellSizes[settings->posnum-1];
+			width = settings->subCellSizes[settings->posnum - 1];
 		}
-		if(point.x >= center.x - wdt && point.x < center.x + wdt && point.y >= center.y - wdt && point.y < center.y + wdt ){
+		if(point.x >= center.x - width && point.x < center.x + width && point.y >= center.y - width && point.y < center.y + width ){
 			return true;
 		}
+
 		return false;
 	}
 
@@ -136,20 +106,16 @@ public:
 		{ 
 			if( clear )
 			{		 
-				int width = settings->subCellSizes[settings->posnum-1];
-				//CRect rect(center.x-width, center.y-width, center.x+width, center.y+width);
- 				Graphics::drawRectangle(nullptr,center.x-width, center.y-width, center.x+width, center.y+width,drawSet,settings->getFieldBackgroundIndex(),settings->getFieldBackgroundIndex(),0,0);
+				int width = settings->subCellSizes[settings->posnum - 1];
+ 				Graphics::drawRectangle(nullptr, center.x - width, center.y - width, center.x + width, center.y + width, drawSet, settings->getFieldBackgroundIndex(), settings->getFieldBackgroundIndex(), 0, 0);
 			}
 
-//			int R,G,B;
-
-			
 			int curSize; 
-			if( mode==1 || mode==2 )// 1 - player, 2 - pc
+			if( mode == BaseCell::MODE_PLAYER || mode == BaseCell::MODE_PC )
 			{
-				curSize = settings->subCellSizes[settings->posnum-1];
-				int dsInd = (mode == 1 ? settings->xIndex : settings->oIndex);
-				Graphics::drawRectangle(nullptr,center.x-curSize,center.y-curSize,center.x+curSize,center.y+curSize,drawSet, dsInd, dsInd, status, status);
+				curSize = settings->subCellSizes[settings->posnum - 1];
+				int dsInd = (mode == BaseCell::MODE_PLAYER ? settings->xIndex : settings->oIndex);
+				Graphics::drawRectangle(nullptr, center.x - curSize, center.y - curSize, center.x + curSize, center.y + curSize, drawSet, dsInd, dsInd, status, status);
 			}
 			else
 			{
@@ -157,9 +123,9 @@ public:
 				   curSize = settings->subCellSizes[status];
 				}
 				else{
-				   curSize= settings->subCellSizes[settings->posnum-1];
+				   curSize= settings->subCellSizes[settings->posnum - 1];
 				}
-				Graphics::drawRectangle(nullptr,center.x - curSize, center.y - curSize, center.x + curSize, center.y + curSize,
+				Graphics::drawRectangle(nullptr, center.x - curSize, center.y - curSize, center.x + curSize, center.y + curSize,
 					drawSet->getBrushSet(settings->emptyIndex)->getBrush(status), settings->grow ? drawSet->getPenSet(settings->emptyIndex)->getPen(0) : drawSet->getPenSet(settings->emptyIndex)->getPen(status));
 			}
 		}

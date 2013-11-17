@@ -41,8 +41,6 @@ BEGIN_MESSAGE_MAP(CTTToeView, CView)
 	ON_WM_CLOSE()
 END_MESSAGE_MAP()
 
-
-
 const int DSI_BACKGROUND_SETS		  = 0;
 const int DSI_CELL_EMPTY_SETS		  = 1;
 const int DSI_CELL_AI_SETS			  = 2;
@@ -93,7 +91,6 @@ const int MAX_NUM_OF_CELLS = 25;
 
 const int MIN_DEPTH = 1;
 const int MAX_DEPTH = 15;
-
 
 bool menuSequenceOn = false;
 int menuSequenceId = -1;
@@ -738,12 +735,10 @@ void CTTToeView::OnDraw(CDC* pDC)
 
 int cnt = 0;
 
-
 UINT CTTToeView::testFunction(LPVOID param){
 
 	return 0;
 }
-
 
 void CTTToeView::OnLButtonDown(UINT nFlags, CPoint point)
 {
@@ -1269,7 +1264,6 @@ void CTTToeView::processMenuActions(){
 
 		refreshControlLabels();
 	}
-	
 }
 
 bool CTTToeView::isPossibleToFitFieldInClientArea(Settings* settings, CRect rect){
@@ -1463,7 +1457,6 @@ void CTTToeView::animateWinningCombination(){
 
 void CTTToeView::OnTimer(UINT nFlags)
 {
-
 	if(nFlags == TMR_FIELD_ID){
 		field->updateCells();
 	}
@@ -1622,20 +1615,15 @@ UINT CTTToeView::makeAIMove(LPVOID param)
 	return 0;
 }
 
-
 BOOL CTTToeView::OnEraseBkgnd(CDC* pDC)
 {
 	return FALSE;
 }
 
-
-
-
 void CTTToeView::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
 {
 	CView::OnGetMinMaxInfo(lpMMI);
 }
-
 
 void CTTToeView::OnClose()
 {
@@ -1651,14 +1639,12 @@ void CTTToeView::OnClose()
 
 	delete Graphics::cdc;
 
-
 	CView::OnClose();
 }
 
 CMainFrame* CTTToeView::getMainFrame(){
 	return (CMainFrame*)AfxGetApp()->GetMainWnd();
 }
-
 
 // CTTToe3View diagnostics
 
